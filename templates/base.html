@@ -13,9 +13,15 @@
             <div id="main">
                 <form method="post" action="{{ url_for('submitted_form') }}">
                     <label for="orig">Origin:</label>
-                    <input type="text" orig="orig"><br />
-                    <label for="dest">Destination:</label>
-                    <input type="text" dest="dest"><br />
+                    <input type="text" name="orig"><br />
+                    <label for="dest">Departure Date:</label>
+                    <input type="text" name="lMonth" placeholder="Month">
+                    <input type="text" name="lDay" placeholder="Day">
+                    <input type="text" name="lYear" placeholder="Year"><br />
+                    <label for="dest">Arrival Date:</label>
+                    <input type="text" name="bMonth" placeholder="Month">
+                    <input type="text" name="bDay" placeholder="Day">
+                    <input type="text" name="bYear" placeholder="Year"><br />
                     <input type="submit">
                 </form>
             </div>
