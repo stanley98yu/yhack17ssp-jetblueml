@@ -22,6 +22,6 @@ network = tflearn.fully_connected(network, 3, activation='softmax')
 network = tflearn.regression(network, optimizer='adam', learning_rate=0.0001, loss='categorical_crossentropy', name='targets')
 
 model = tflearn.DNN(network)
-model.fit({'input': X}, {'targets': Y}, n_epoch=100, validation_set=size, shuffle=True, snapshot_epoch=True, show_metric=True)
+model.fit({'input': X}, {'targets': Y}, n_epoch=200, validation_set=size, shuffle=True, snapshot_epoch=True, show_metric=True)
 
 model.save(pathModel)
