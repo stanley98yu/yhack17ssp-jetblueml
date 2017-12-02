@@ -1,9 +1,7 @@
-#import numpy as np
 import pickle
 
 pathSpread = 'LowestFares.csv'
 pathPickle = 'data.p'
-#size = .1
 
 def makeFeatureset(path):
 	with open(path, 'r') as file:
@@ -11,46 +9,36 @@ def makeFeatureset(path):
 		# remove header
 		del contents[0]
 
-		del contents[100:]
-
 		featureset = []
 		counter = 0
 		for line in contents:
 			splitline = line.split(',')
 			
-			# check if both cost and points cost exist
-			if float(splitline[7]) > 0:
-				flight = []
-				# origin
-				flight.append(splitline[0])
-				# destination
-				flight.append(splitline[1])
-				time = splitline[2].split(' ')
-				# month
-				flight.append(float(time[0].split('/')[0]))
-				# day
-				flight.append(float(time[0].split('/')[1]))
-				# time
-				flight.append(float(time[1].split(':')[0]) + float(time[1].split(':')[1]) / 60)
-				# points
-				flight.append(float(splitline[7]) + float(splitline[8]))
-				# is domestic
-				flight.append(float(splitline[9]))
-				# is private
-				flight.append(float(splitline[10]))
+			flight = []
+			# origin
+			flight.append(splitline[0])
+			# destination
+			flight.append(splitline[1])
+			time = splitline[2].split(' ')
+			# month
+			flight.append(float(time[0].split('/')[0]))
+			# day
+			flight.append(float(time[0].split('/')[1]))
+			# time
+			flight.append(float(time[1].split(':')[0]) + float(time[1].split(':')[1]) / 60)
+			# is domestic
+			flight.append(float(splitline[9]))
+			# is private
+			flight.append(float(splitline[10]))
 			
-				flight.append(float(splitline[5]) + float(splitline[6]))
-			
-				featureset.append(flight)
+			# cost
+			flight.append(float(splitline[5]) + float(splitline[6]))
+		
+			featureset.append(flight)
 
-			# count progress
-			counter += 1
-			if(counter % 100 == 0):
-				print(str(counter / len(contents) * 100) + ' percent complete')
-
-		print(featureset)
 		# turn cities into numbers
-		cities = list(set([i[0] for i in featureset])) + list(set([i[1] for i in featureset]))
+		cities = list(set([i[0] for i in featureset] + [i[1] for i in featureset]))
+		print(cities)
 		for i in featureset:
 			i[0] = cities.index(i[0])
 			i[1] = cities.index(i[1])
@@ -79,32 +67,9 @@ def makeFeatureset(path):
 				ff.append([i, classification])
 			del featureset[:index]
 
-		#for i in ff:
-		#	print(i)
 		return ff
 
-def trainAndTest(featureset):
-
-	X = [i[0] for i in featureset]
-	Y = [i[1] for i in featureset]
-	
-	#featureset = np.array(featureset)
-	#print(featureset)
-	#X = list(featureset[:,0])
-	#Y = list(featureset[:,1])
-
-	return X, Y
-
-#	featureset = np.array(featureset)
-#	test_size = int(size * len(featureset))
-#	train_x = list(featureset[:,0][:-test_size])
-#	train_y = list(featureset[:,1][:-test_size])
-#	test_x = list(featureset[:,0][-test_size:])
-#	test_y = list(featureset[:,1][-test_size:])
-#	return train_x, train_y, test_x, test_y
-
 featureset = makeFeatureset(pathSpread)
-topickle = trainAndTest(featureset)
+toPickle = [[i[0] for i in featureset], [i[1] for i in featureset]]
 
-
-pickle.dump(topickle, open(pathPickle, 'wb'))
+pickle.dump(toPickle, open(pathPickle, 'wb'))
