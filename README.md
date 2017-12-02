@@ -1,4 +1,4 @@
-# yhackssp-jetblueml
+# JetBlue Lowest Fares and Deals
 Machine learning predictor around lowest fares using JetBlue data.
 
-Zhengdong and Stanley!
+Made by Zhengdong and Stanley at YHack 2017!
