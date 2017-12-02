@@ -2,10 +2,12 @@ import tflearn
 from tflearn.layers.conv import conv_2d, max_pool_2d
 from tflearn.layers.core import input_data, dropout, fully_connected
 from tflearn.layers.estimator import regression
+import numpy as np
 
 pathModel = 'model.tflearn'
+length = 7
 
-network = tflearn.input_data(shape=[None, 7], name='input')
+network = tflearn.input_data(shape=[None, length], name='input')
 network = tflearn.fully_connected(network, 500, activation='relu')
 network = tflearn.fully_connected(network, 500, activation='relu')
 network = tflearn.fully_connected(network, 500, activation='relu')
@@ -40,27 +42,30 @@ def predictDates(origin, destination):
 			for time in range(24):
 				listFlights.append([origin, destination, month + 1, day + 1, time, isDomestic(origin, destination), 0])
 	for flight in listFlights:
-		if model.predict(flight) == [1, 0, 0]:
+		leavePrediction = model.predict(np.array(flight).reshape([1, length]))
+		if leavePrediction > .6:
 			cheapFlights.append(flight)
 
 	print(cheapFlights)
 
 # predict flight from dates
-def predictFlights(leaveMonth, leaveDay, backMonth, backDay):
+def predictFlights(origin, leaveMonth, leaveDay, backMonth, backDay):
 	listFlights = []
 	cheapFlights = []
-	for origin in range(99):
-		for destination in range(99):
-			for time in range(24):
-				if origin != destination:
-					listFlights.append([[origin, destination, leaveMonth, leaveDay, time, isDomestic(origin, destination), 0], 
-						[destination, origin, backMonth, backDay, time, isDomestic(destination, origin), 0]])
+	for destination in range(99):
+		for time in range(24):
+			if origin != destination:
+				listFlights.append([[origin, destination, leaveMonth, leaveDay, time, isDomestic(origin, destination), 0], 
+					[destination, origin, backMonth, backDay, time, isDomestic(destination, origin), 0]])
 	for flight in listFlights:
-		if model.predict(flight[0]) == [1, 0, 0] and model.predict(filght[1]) == [1, 0, 0]:
+		leavePrediction = model.predict(np.array(flight[0]).reshape([1, length]))[0]
+		backPrediction = model.predict(np.array(flight[1]).reshape([1, length]))[0]
+		if leavePrediction[0] > .6:
+			cheapFlights.append(flight)
+		if backPrediction[0] > .6:
 			cheapFlights.append(flight)
 
 	print(cheapFlights)
 
-
-predictFlights(12, 4, 12, 10)
+predictFlights(0, 12, 4, 12, 10)
 
