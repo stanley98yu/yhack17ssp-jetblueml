@@ -1,10 +1,9 @@
-import numpy as np
+#import numpy as np
 import pickle
-import random
 
 pathSpread = 'LowestFares.csv'
 pathPickle = 'data.p'
-size = .1
+#size = .1
 
 def makeFeatureset(path):
 	with open(path, 'r') as file:
@@ -12,7 +11,7 @@ def makeFeatureset(path):
 		# remove header
 		del contents[0]
 
-		#del contents[:100]
+		del contents[100:]
 
 		featureset = []
 		counter = 0
@@ -49,8 +48,9 @@ def makeFeatureset(path):
 			if(counter % 100 == 0):
 				print(str(counter / len(contents) * 100) + ' percent complete')
 
+		print(featureset)
 		# turn cities into numbers
-		cities = list(set([i[0] for i in featureset]))
+		cities = list(set([i[0] for i in featureset])) + list(set([i[1] for i in featureset]))
 		for i in featureset:
 			i[0] = cities.index(i[0])
 			i[1] = cities.index(i[1])
@@ -79,16 +79,19 @@ def makeFeatureset(path):
 				ff.append([i, classification])
 			del featureset[:index]
 
-		for i in ff:
-			print(i)
+		#for i in ff:
+		#	print(i)
 		return ff
 
-def trainAndTest(featureset, size):
-	random.shuffle(featureset)
+def trainAndTest(featureset):
 
-	featureset = np.array(featureset)
-	X = list(featureset[:,0])
-	Y = list(featureset[:,1])
+	X = [i[0] for i in featureset]
+	Y = [i[1] for i in featureset]
+	
+	#featureset = np.array(featureset)
+	#print(featureset)
+	#X = list(featureset[:,0])
+	#Y = list(featureset[:,1])
 
 	return X, Y
 
@@ -101,4 +104,7 @@ def trainAndTest(featureset, size):
 #	return train_x, train_y, test_x, test_y
 
 featureset = makeFeatureset(pathSpread)
-pickle.dump(trainAndTest(featureset, size), open(pathPickle, 'wb'))
+topickle = trainAndTest(featureset)
+
+
+pickle.dump(topickle, open(pathPickle, 'wb'))
