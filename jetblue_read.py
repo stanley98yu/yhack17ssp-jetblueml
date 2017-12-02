@@ -1,4 +1,5 @@
 import pickle
+import datetime
 
 pathSpread = 'LowestFares.csv'
 pathPickle = 'data.p'
@@ -24,6 +25,8 @@ def makeFeatureset(path):
 			flight.append(float(time[0].split('/')[0]))
 			# day
 			flight.append(float(time[0].split('/')[1]))
+			# day of week
+			flight.append(datetime.date(int(time[0].split('/')[2]), int(time[0].split('/')[0]), int(time[0].split('/')[1])).weekday())
 			# time
 			flight.append(float(time[1].split(':')[0]) + float(time[1].split(':')[1]) / 60)
 			# is domestic
@@ -33,12 +36,10 @@ def makeFeatureset(path):
 			
 			# cost
 			flight.append(float(splitline[5]) + float(splitline[6]))
-		
 			featureset.append(flight)
 
 		# turn cities into numbers
 		cities = list(set([i[0] for i in featureset] + [i[1] for i in featureset]))
-		print(cities)
 		for i in featureset:
 			i[0] = cities.index(i[0])
 			i[1] = cities.index(i[1])
@@ -69,7 +70,7 @@ def makeFeatureset(path):
 
 		return ff
 
+
 featureset = makeFeatureset(pathSpread)
 toPickle = [[i[0] for i in featureset], [i[1] for i in featureset]]
-
 pickle.dump(toPickle, open(pathPickle, 'wb'))
