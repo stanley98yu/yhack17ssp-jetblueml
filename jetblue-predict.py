@@ -31,6 +31,15 @@ def isDomestic(origin, destination):
 	else:
 		return 1
 
+flightref = ['JFK', 'ACK', 'OAK', 'BWI', 'BTV', 'ANU', 'POS', 'LAX', 'PHX', 'PSP', 
+'SEA', 'STI', 'GND', 'ALB', 'HOG', 'PLS', 'ABQ', 'SAV', 'DTW', 'SMF', 'CUR', 'CUN', 
+'TPA', 'LGB', 'HPN', 'UIO', 'SRQ', 'BDL', 'GCM', 'SXM', 'BUR', 'SNU', 'IAD', 'STX', 
+'DCA', 'BGI', 'PBI', 'BUF', 'SJO', 'MEX', 'PAP', 'PSE', 'MBJ', 'ORD', 'CLT', 'MSY', 
+'SFO', 'PIT', 'BOG', 'SJU', 'DAB', 'AUS', 'HOU', 'MVY', 'DFW', 'BDA', 'PHL', 'BQN', 
+'LAS', 'RDU', 'PWM', 'FLL', 'MCO', 'UVF', 'DEN', 'CTG', 'HAV', 'RNO', 'SJC', 'RIC', 
+'LGA', 'ORH', 'CHS', 'SLC', 'KIN', 'NAS', 'ATL', 'SDQ', 'MDE', 'SYR', 'CMW', 'RSW', 
+'CLE', 'SAN', 'PDX', 'LIR', 'JAX', 'STT', 'LRM', 'EWR', 'POP', 'ROC', 'AUA', 'BOS', 
+'BNA', 'LIM', 'PUJ', 'SWF', 'PVD']
 # [origin, destination, month, day, time, domestic, private]
 
 # predict dates from flight
@@ -46,7 +55,7 @@ def predictDates(origin, destination):
 		if leavePrediction > .6:
 			cheapFlights.append(flight)
 
-	print(cheapFlights)
+	return cheapFlights
 
 # predict flight from dates
 def predictFlights(origin, leaveMonth, leaveDay, backMonth, backDay):
@@ -65,7 +74,7 @@ def predictFlights(origin, leaveMonth, leaveDay, backMonth, backDay):
 		if backPrediction[0] > .6:
 			cheapFlights.append(flight)
 
-	print(cheapFlights)
+	return cheapFlights
 
 predictFlights(0, 12, 4, 12, 10)
 
