@@ -45,24 +45,38 @@ def isDomestic(origin, destination):
 
 # [origin, destination, month, day, day of week, time, domestic, private]
 
-# BROKEN ADD DAY OF WEEK SUPPORT
 # predict dates from flight
 def predictDates(origin, destination):
+	model = init()
+
 	listFlights = []
 	cheapFlights = []
-	for month in range(12):
-		for day in range(30):
-			for time in range(24):
-				listFlights.append([origin, destination, month + 1, day + 1, time, isDomestic(origin, destination), 0])
+	for year in range(2017:2019):
+		for month in range(12):
+			for day in range(30):
+				for time in range(24):
+					listFlights.append([origin, destination, month + 1, day + 1, datetime.date(year, month + 1, day + 1).weekday(), time, isDomestic(origin, destination), 0])
+	
+	top = 0
 	for flight in listFlights:
 		leavePrediction = model.predict(np.array(flight).reshape([1, length]))
-		if leavePrediction > .6:
+		if leavePrediction[0] > top:
 			cheapFlights.append(flight)
+			top = leavePrediction[0]
 
-	return cheapFlights
+	routes = []
+	finalFlights = []
+	for flight in cheapFlights:
+		if [flight[0][0], flight[0][1]] not in routes:
+			routes.append([flight[0][0], flight[0][1]])
+			finalFlights.append(flight)
+
+	return finalFlights[-3:]
 
 # predict flight from dates
 def predictFlights(origin, leaveMonth, leaveDay, leaveYear, backMonth, backDay, backYear):
+	model = init()
+
 	listFlights = []
 	cheapFlights = []
 	for destination in range(99):
@@ -88,9 +102,6 @@ def predictFlights(origin, leaveMonth, leaveDay, leaveYear, backMonth, backDay, 
 
 	return finalFlights[-3:]
 
-model = init()
-final = predictFlights(8, 12, 4, 2017, 12, 10, 2017)
-print(final)
 
 
 
