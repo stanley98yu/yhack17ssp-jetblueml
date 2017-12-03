@@ -23,8 +23,20 @@ def submitted_form():
     bDay = int(request.form['bDay'])
     bYear = int(request.form['bYear'])
     flight = predictFlights(orig, lMonth, lDay, lYear, bMonth, bDay, bYear)
+    flightName = ['JFK', 'ACK', 'OAK', 'BWI', 'BTV', 'ANU', 'POS', 'LAX', 
+    'PHX', 'PSP', 'SEA', 'STI', 'GND', 'ALB', 'HOG', 'PLS', 'ABQ', 'SAV', 
+    'DTW', 'SMF', 'CUR', 'CUN', 'TPA', 'LGB', 'HPN', 'UIO', 'SRQ', 'BDL', 
+    'GCM', 'SXM', 'BUR', 'SNU', 'IAD', 'STX', 'DCA', 'BGI', 'PBI', 'BUF', 
+    'SJO', 'MEX', 'PAP', 'PSE', 'MBJ', 'ORD', 'CLT', 'MSY', 'SFO', 'PIT', 
+    'BOG', 'SJU', 'DAB', 'AUS', 'HOU', 'MVY', 'DFW', 'BDA', 'PHL', 'BQN', 
+    'LAS', 'RDU', 'PWM', 'FLL', 'MCO', 'UVF', 'DEN', 'CTG', 'HAV', 'RNO', 
+    'SJC', 'RIC', 'LGA', 'ORH', 'CHS', 'SLC', 'KIN', 'NAS', 'ATL', 'SDQ', 
+    'MDE', 'SYR', 'CMW', 'RSW', 'CLE', 'SAN', 'PDX', 'LIR', 'JAX', 'STT', 
+    'LRM', 'EWR', 'POP', 'ROC', 'AUA', 'BOS', 'BNA', 'LIM', 'PUJ', 'SWF', 
+    'PVD']
+    origN = flightName[orig]
     return render_template('submitted.html',
-    	orig=orig,
+    	origN=orig,
     	lMonth=lMonth,
     	lDay=lDay,
     	lYear=lYear,
