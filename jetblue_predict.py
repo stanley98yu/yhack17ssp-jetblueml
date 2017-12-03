@@ -51,7 +51,7 @@ def predictDates(origin, destination):
 
 	listFlights = []
 	cheapFlights = []
-	for year in range(2017:2019):
+	for year in range(2017, 2019):
 		for month in range(12):
 			for day in range(30):
 				for time in range(24):
