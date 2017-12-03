@@ -15,14 +15,13 @@ def index():
 
 @app.route('/submitted', methods=['POST'])
 def submitted_form():
-    orig = int(request.form['orig'])
+    origN = request.form['orig']
     lMonth = int(request.form['lMonth'])
     lDay = int(request.form['lMonth'])
     lYear = int(request.form['lMonth'])
     bMonth = int(request.form['bMonth'])
     bDay = int(request.form['bDay'])
     bYear = int(request.form['bYear'])
-    flight = predictFlights(orig, lMonth, lDay, lYear, bMonth, bDay, bYear)
     flightName = ['JFK', 'ACK', 'OAK', 'BWI', 'BTV', 'ANU', 'POS', 'LAX', 
     'PHX', 'PSP', 'SEA', 'STI', 'GND', 'ALB', 'HOG', 'PLS', 'ABQ', 'SAV', 
     'DTW', 'SMF', 'CUR', 'CUN', 'TPA', 'LGB', 'HPN', 'UIO', 'SRQ', 'BDL', 
@@ -34,15 +33,20 @@ def submitted_form():
     'MDE', 'SYR', 'CMW', 'RSW', 'CLE', 'SAN', 'PDX', 'LIR', 'JAX', 'STT', 
     'LRM', 'EWR', 'POP', 'ROC', 'AUA', 'BOS', 'BNA', 'LIM', 'PUJ', 'SWF', 
     'PVD']
-    origN = flightName[orig]
+    orig = flightName.index(origN)
+    flight = predictFlights(orig, lMonth, lDay, lYear, bMonth, bDay, bYear)
+    dest = list()
+    for i in flight:
+    	dest.append(flightName[i[0][1]])
     return render_template('submitted.html',
-    	origN=orig,
+    	orig=origN,
     	lMonth=lMonth,
     	lDay=lDay,
     	lYear=lYear,
     	bMonth=bMonth,
     	bDay=bDay,
-    	bYear=bYear)
+    	bYear=bYear,
+    	dest=dest)
 
 
 if __name__ == "__main__":
