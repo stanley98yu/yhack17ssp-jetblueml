@@ -11,4 +11,4 @@ Instructions:
 4. Go to localhost:5000. Fill out the form for origin, departure date, and return date.
 5. Find your best deals!!! Go to the JetBlue website to see price. According to Zhengdong's calculations, program will return a cheap flight 87.18% of the time.
 
-Made by Zhengdong Wang and Stanley Yu at YHack 2017!
+Created by Zhengdong Wang and Stanley Yu at YHack 2017!
